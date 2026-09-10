@@ -46,6 +46,12 @@ int main()
 
 	camera.SetIsometricView();   // Apply the iso metric view
 
+	// Add IMGUI
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(window,true);
+	ImGui_ImplOpenGL2_Init();
+
 	while (!glfwWindowShouldClose(window))
 	{
 		int width;
@@ -57,6 +63,19 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		camera.ApplyProjection(width, height);
 		camera.ApplyView();
+
+		// IMGUI
+		ImGui_ImplOpenGL2_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		ImGui::Begin("B-Spline");
+		ImGui::Text("Hello BSplineSimulator!");
+		ImGui::End();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+
 
 		renderer.DrawCoordinateAxis();   // Draw the coordinate axis
 		renderer.DrawBSplineCurve(curve);   // Draw B-Spline Curve

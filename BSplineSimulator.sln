@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BSplineSimulator", "BSplineSimulator\BSplineSimulator.vcxproj", "{08E19565-CDAF-412D-A935-8762E2E61139}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeoKernel3D", "..\GeoKernel3D\GeoKernel3D\GeoKernel3D.vcxproj", "{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Debug|x64.ActiveCfg = Debug|x64
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Debug|x64.Build.0 = Debug|x64
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Debug|x86.ActiveCfg = Debug|Win32
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Debug|x86.Build.0 = Debug|Win32
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Release|x64.ActiveCfg = Release|x64
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Release|x64.Build.0 = Release|x64
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Release|x86.ActiveCfg = Release|Win32
+		{08E19565-CDAF-412D-A935-8762E2E61139}.Release|x86.Build.0 = Release|Win32
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Debug|x64.ActiveCfg = Debug|x64
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Debug|x64.Build.0 = Debug|x64
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Debug|x86.ActiveCfg = Debug|Win32
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Debug|x86.Build.0 = Debug|Win32
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Release|x64.ActiveCfg = Release|x64
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Release|x64.Build.0 = Release|x64
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Release|x86.ActiveCfg = Release|Win32
+		{841EB6E8-063F-4FEE-AB3B-33832F3B9A3C}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {778BCFD0-BE5E-4983-895F-95ECE77A535F}
+	EndGlobalSection
+EndGlobal

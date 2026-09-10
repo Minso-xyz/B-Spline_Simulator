@@ -56,6 +56,7 @@ int main()
 
 		renderer.DrawCoordinateAxis();   // Draw the coordinate axis
 		renderer.DrawBSplineCurve(curve);   // Draw B-Spline Curve
+		renderer.DrawControlPolygon(curve.ControlPoints);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();   // handle the mouse/keyboard inputs

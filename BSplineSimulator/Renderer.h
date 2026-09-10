@@ -15,6 +15,7 @@ public:
 	void DrawLine(const Line3D& line);
 	void DrawCircle(const Circle3D& circle);
 	void DrawPolyline(const std::vector<Point3D>& points);
+	void DrawControlPolygon(std::vector < Point3D> controlPoints);
 	void DrawBSplineCurve(const BSplineCurve& curve);
 	void DrawVertex(const Vertex& vertex);
 	void DrawEdge(const Edge& edge);

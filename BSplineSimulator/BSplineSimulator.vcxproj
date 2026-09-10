@@ -150,6 +150,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="SimulatorUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="SimulatorUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

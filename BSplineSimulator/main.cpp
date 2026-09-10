@@ -8,6 +8,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl2.h"
+#include "SimulatorUI.h"
 
 int main()
 {
@@ -29,6 +30,7 @@ int main()
 
 	Camera camera;
 	Renderer renderer;
+	SimulatorUI ui;
 
 	BSplineCurve curve(
 		{
@@ -69,13 +71,10 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		ImGui::Begin("B-Spline");
-		ImGui::Text("Hello BSplineSimulator!");
-		ImGui::End();
+		ui.Draw();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-
 
 		renderer.DrawCoordinateAxis();   // Draw the coordinate axis
 		renderer.DrawBSplineCurve(curve);   // Draw B-Spline Curve

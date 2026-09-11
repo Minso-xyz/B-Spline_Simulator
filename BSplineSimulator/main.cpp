@@ -17,7 +17,7 @@ int main()
 		return -1;
 	}
 
-	GLFWwindow* window = glfwCreateWindow(800, 600, "B-Spline Simulator", nullptr, nullptr);  // create the window
+	GLFWwindow* window = glfwCreateWindow(1400, 800, "B-Spline Simulator", nullptr, nullptr);  // create the window
 
 	if (!window)
 	{

@@ -26,9 +26,13 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 	bool curveUpdated = false;
 
 	ImGui::Begin("B-Spline Parameters");
-	ImGui::InputInt("Degree", &EditingDegree);
+	ImGui::Text("             Degree");
+	ImGui::SameLine();
+	ImGui::InputInt("##Degree", &EditingDegree);
 
-	if (ImGui::InputInt("Control Point Count", &EditingControlPointCount))  // boolean?
+	ImGui::Text("Control Point Count");
+	ImGui::SameLine();
+	if (ImGui::InputInt("##Control Point Count", &EditingControlPointCount))  // boolean?
 	{
 		ResizeControlPoints();
 	}
@@ -38,7 +42,7 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 	for (int i = 0; i < EditingControlPoints.size(); i++)
 	{
 		ImGui::PushID(i);  // Assign an id
-		ImGui::Text("P%d", i);  // P0, P1, P2...
+		ImGui::Text("                 P%d", i);  // P0, P1, P2...
 		ImGui::SameLine();
 
 		double coordinates[3] =
@@ -70,7 +74,9 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 	}
 
 	// Set camera view
-	if (ImGui::Combo("View", &currentView, viewNames, IM_ARRAYSIZE(viewNames)))
+	ImGui::Text("               View");
+	ImGui::SameLine();
+	if (ImGui::Combo("##View", &currentView, viewNames, IM_ARRAYSIZE(viewNames)))
 	{
 		switch (currentView)
 		{
@@ -89,7 +95,10 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 		}
 	}
 
-	if (ImGui::Button("Apply Curve"))
+	ImGui::Spacing();
+	ImGui::Text("                   ");
+	ImGui::SameLine();
+	if (ImGui::Button("  Apply Curve  "))
 	{
 		if (valid)
 		{

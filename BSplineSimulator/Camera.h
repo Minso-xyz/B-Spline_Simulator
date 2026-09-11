@@ -10,8 +10,10 @@ public:
 	float Yaw;   // Right/Left rotation angle
 	float Pitch;   // Up/Down rotation angle
 	float Zoom;
-
 	Point3D Target;
+	bool IsRotating = false;
+	double LastMouseX = 0.0;;
+	double LastMouseY = 0.0;
 
 public:
 	Camera();
@@ -24,10 +26,8 @@ public:
 	void SetIsometricView();
 
 	void ApplyProjection(int width, int height);
-
 	void ApplyView();
-
 	void HandleInput(GLFWwindow* window);
-
 	void FitTargetBox(const BoundingBox& boundingBox);
+	void HandleMouse(GLFWwindow* window);
 };

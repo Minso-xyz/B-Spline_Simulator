@@ -73,6 +73,15 @@ int main()
 		ImGui::NewFrame();
 
 		bool curveUpdated = ui.Draw(curve, camera);
+
+		ImGuiIO& io = ImGui::GetIO();
+
+		// To prevent rotating the camera together
+		if (!io.WantCaptureMouse)
+		{
+			camera.HandleMouse(window);
+		}
+
 		if (curveUpdated)
 		{
 			BoundingBox box = BoundingBox::CalculateBoundingBox(curve.ControlPoints);

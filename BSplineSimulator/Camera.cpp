@@ -160,3 +160,34 @@ void Camera::FitTargetBox(const BoundingBox& boundingBox)
 	Zoom = static_cast<float>(radius * 1.25);
 	Distance = static_cast<float>(radius * 3.0);
 }
+
+void Camera::HandleMouse(GLFWwindow* window)
+{
+	double mouseX;
+	double mouseY;
+
+	glfwGetCursorPos(window, &mouseX, &mouseY);
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	{
+		if (!IsRotating)
+		{
+			IsRotating = true;
+			LastMouseX = mouseX;
+			LastMouseY = mouseY;
+		}
+
+		double deltaX = mouseX - LastMouseX;
+		double deltaY = mouseY - LastMouseY;
+
+		Yaw += static_cast<float>(deltaX) * 0.3f;
+		Pitch += static_cast<float>(deltaY) * 0.3f;
+
+		LastMouseX = mouseX;
+		LastMouseY = mouseY;
+	}
+	else
+	{
+		IsRotating = false;
+	}
+}

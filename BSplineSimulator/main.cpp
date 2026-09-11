@@ -30,8 +30,7 @@ int main()
 
 	Camera camera;
 	Renderer renderer;
-	SimulatorUI ui;
-
+	
 	BSplineCurve curve(
 		{
 			Point3D(0,0,0),
@@ -45,6 +44,8 @@ int main()
 		},
 		3
 	);
+
+	SimulatorUI ui(curve);
 
 	camera.SetIsometricView();   // Apply the iso metric view
 
@@ -71,7 +72,14 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		ui.Draw();
+		bool curveUpdated = ui.Draw(curve);
+		if (curveUpdated)
+		{
+			BoundingBox box = BoundingBox::CalculateBoundingBox(curve.ControlPoints);
+			camera.FitTargetBox(box);
+		}
+		renderer.DrawBSplineCurve(curve);
+		renderer.DrawControlPolygon(curve.ControlPoints);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());

@@ -17,7 +17,7 @@ int main()
 		return -1;
 	}
 
-	GLFWwindow* window = glfwCreateWindow(800, 600, "STEP Viewer", nullptr, nullptr);  // create the window
+	GLFWwindow* window = glfwCreateWindow(800, 600, "B-Spline Simulator", nullptr, nullptr);  // create the window
 
 	if (!window)
 	{
@@ -72,7 +72,7 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		bool curveUpdated = ui.Draw(curve);
+		bool curveUpdated = ui.Draw(curve, camera);
 		if (curveUpdated)
 		{
 			BoundingBox box = BoundingBox::CalculateBoundingBox(curve.ControlPoints);

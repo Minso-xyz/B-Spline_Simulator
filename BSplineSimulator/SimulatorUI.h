@@ -1,5 +1,6 @@
 #pragma once
 #include "BSplineCurve.h"
+#include "Camera.h"
 
 class SimulatorUI
 {
@@ -14,7 +15,7 @@ private:
 
 public:
 	SimulatorUI(const BSplineCurve& curve);
-	bool Draw(BSplineCurve& curve);
+	bool Draw(BSplineCurve& curve, Camera& camera);
 
 private:
 	void ResizeControlPoints();

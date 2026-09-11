@@ -9,9 +9,19 @@ SimulatorUI::SimulatorUI(const BSplineCurve& curve)
 	EditingControlPointCount = static_cast<int>(curve.ControlPoints.size());
 }
 
+const char* viewNames[]
+{
+	"Front",
+	"Right",
+	"Top",
+	"Isometric"
+};
+
+static int currentView = 3;
+
 // false : Apply button not clicked
 // true : curve is updated
-bool SimulatorUI::Draw(BSplineCurve& curve)
+bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 {
 	bool curveUpdated = false;
 
@@ -59,18 +69,36 @@ bool SimulatorUI::Draw(BSplineCurve& curve)
 		ImGui::BeginDisabled();
 	}
 
-	if (!valid)
+	// Set camera view
+	if (ImGui::Combo("View", &currentView, viewNames, IM_ARRAYSIZE(viewNames)))
 	{
-		ImGui::BeginDisabled();
+		switch (currentView)
+		{
+		case 0:
+			camera.SetFrontView();
+			break;
+		case 1:
+			camera.SetRightView();
+			break;
+		case 2:
+			camera.SetTopView();
+			break;
+		case 3:
+			camera.SetIsometricView();
+			break;
+		}
 	}
 
 	if (ImGui::Button("Apply Curve"))
 	{
-		curve.Degree = EditingDegree;
-		curve.ControlPoints = EditingControlPoints;
-		curve.Knots = CreateClampedUniformKnots(EditingControlPointCount, EditingDegree);
+		if (valid)
+		{
+			curve.Degree = EditingDegree;
+			curve.ControlPoints = EditingControlPoints;
+			curve.Knots = CreateClampedUniformKnots(EditingControlPointCount, EditingDegree);
 
-		curveUpdated = true;
+			curveUpdated = true;
+		}
 	}
 
 	if (!valid)

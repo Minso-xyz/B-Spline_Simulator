@@ -23,14 +23,13 @@ bool SimulatorUI::Draw(BSplineCurve& curve)
 		ResizeControlPoints();
 	}
 
-	ImGui::Separator();  // ???
-
+	ImGui::Separator();
 
 	for (int i = 0; i < EditingControlPoints.size(); i++)
 	{
-		ImGui::PushID(i);  // ???
-		ImGui::Text("P%d", i);  // ???
-		ImGui::SameLine();  // ????
+		ImGui::PushID(i);  // Assign an id
+		ImGui::Text("P%d", i);  // P0, P1, P2...
+		ImGui::SameLine();
 
 		double coordinates[3] =
 		{
@@ -47,7 +46,6 @@ bool SimulatorUI::Draw(BSplineCurve& curve)
 		}
 		ImGui::PopID();
 	}
-
 	ImGui::Separator();
 
 	// Validate the input parameters
@@ -58,6 +56,11 @@ bool SimulatorUI::Draw(BSplineCurve& curve)
 			"Degree must be smaller than "
 			"the control point count.");
 
+		ImGui::BeginDisabled();
+	}
+
+	if (!valid)
+	{
 		ImGui::BeginDisabled();
 	}
 

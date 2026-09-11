@@ -163,31 +163,46 @@ void Camera::FitTargetBox(const BoundingBox& boundingBox)
 
 void Camera::HandleMouse(GLFWwindow* window)
 {
+	// the current position of the mouse
 	double mouseX;
 	double mouseY;
 
+	// get the position of the mouse in GLFW window
 	glfwGetCursorPos(window, &mouseX, &mouseY);
 
+	// Check if the LEFT button is pressed
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
+		// In case of the first time to press
 		if (!IsRotating)
 		{
+			// save the starting position
 			IsRotating = true;
 			LastMouseX = mouseX;
 			LastMouseY = mouseY;
 		}
 
+		// the difference between the current frame and the previous frame
 		double deltaX = mouseX - LastMouseX;
 		double deltaY = mouseY - LastMouseY;
 
-		Yaw += static_cast<float>(deltaX) * 0.3f;
-		Pitch += static_cast<float>(deltaY) * 0.3f;
+		Yaw += static_cast<float>(deltaX) * 0.3f;  // Left-Right rotation
+		Pitch += static_cast<float>(deltaY) * 0.3f;  // Up-Down rotation
 
+		// Save the current position as the previous position of the next session
 		LastMouseX = mouseX;
 		LastMouseY = mouseY;
 	}
 	else
 	{
-		IsRotating = false;
+		IsRotating = false;   // abort the rotating status when the left button is not pressed
 	}
+}
+
+void Camera::HandleScroll(double offset)
+{
+	Zoom -= static_cast<float>(offset) * 3.0f;
+
+	if (Zoom < 1.0f) Zoom = 1.0f;
+	if (Zoom > 100.0f) Zoom = 100.0f;
 }

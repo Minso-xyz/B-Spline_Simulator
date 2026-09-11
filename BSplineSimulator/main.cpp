@@ -10,6 +10,10 @@
 #include "imgui_impl_opengl2.h"
 #include "SimulatorUI.h"
 
+Camera* gCamera = nullptr;
+
+void ScrollCallback(GLFWwindow* window,double xOffset,double yOffset);
+
 int main()
 {
 	if (!glfwInit())
@@ -27,8 +31,10 @@ int main()
 
 	glfwMakeContextCurrent(window);
 	glEnable(GL_DEPTH_TEST);
+	glfwSetScrollCallback(window, ScrollCallback);
 
 	Camera camera;
+	gCamera = &camera;
 	Renderer renderer;
 	
 	BSplineCurve curve(
@@ -76,7 +82,7 @@ int main()
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		// To prevent rotating the camera together
+		// Rotate the view only when the house is not in other use (ImGui interfaces)
 		if (!io.WantCaptureMouse)
 		{
 			camera.HandleMouse(window);
@@ -104,4 +110,18 @@ int main()
 	glfwTerminate();
 
 	return 0;
+}
+
+void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	// abort if the mouse is in other use (ImGui)
+	if (ImGui::GetIO().WantCaptureMouse)
+	{
+		return;
+	}
+
+	if (gCamera)
+	{
+		gCamera->HandleScroll(yOffset);  // only yOffset is used (Up-down mouse wheel)
+	}
 }

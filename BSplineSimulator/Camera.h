@@ -30,4 +30,5 @@ public:
 	void HandleInput(GLFWwindow* window);
 	void FitTargetBox(const BoundingBox& boundingBox);
 	void HandleMouse(GLFWwindow* window);
+	void HandleScroll(double offset);
 };

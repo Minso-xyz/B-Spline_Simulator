@@ -8,6 +8,8 @@ Interactive B-Spline Curve and Surface Simulator written in C++ and OpenGL.
 - Control Polygon Visualization
 - Camera Orbit / Zoom
 - OpenGL Rendering
+
+![BSplineSimulator](UI.png) 
  
 ## Current Status
 ### Implemented

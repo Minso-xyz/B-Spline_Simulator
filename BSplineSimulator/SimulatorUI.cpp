@@ -24,7 +24,8 @@ const char* dataExportCSV[]
 {
 	"Control Points",
 	"Knot Vector",
-	"Curve Sample Points"
+	"Curve Sample Points",
+	"Basis Functions"
 };
 static int currentDataType = 0;
 
@@ -109,6 +110,25 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV
 		}
 	}
 
+	
+
+	// Export CSV file
+	// Select the type of date to export
+	ImGui::Separator();
+	ImGui::Spacing();
+	ImGui::Text("          Data type");
+	ImGui::SameLine();
+	ImGui::Combo("##DataType", &currentDataType, dataExportCSV, IM_ARRAYSIZE(dataExportCSV));
+
+	// Sample count input (only for "Curve sample points")
+	ImGui::Text("   ");
+	if (currentDataType == 2 || currentDataType == 3)
+	{
+		ImGui::Text("       Sample Count");
+		ImGui::SameLine();
+		ImGui::InputInt("##Sample Count", &SampleCount);
+	}
+
 	// Update Curve
 	ImGui::Spacing();
 	ImGui::Text("                   ");
@@ -130,26 +150,9 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV
 		ImGui::EndDisabled();
 	}
 
-	// Export CSV file
-	// Select the type of date to export
-	ImGui::Separator();
-	ImGui::Spacing();
-	ImGui::Text("          Data type");
-	ImGui::SameLine();
-	ImGui::Combo("##DataType", &currentDataType, dataExportCSV, IM_ARRAYSIZE(dataExportCSV));
-
-	// Sample count input (only for "Curve sample points")
-	ImGui::Text("   ");
-	if (currentDataType == 2)
-	{
-		ImGui::Text("       Sample Count");
-		ImGui::SameLine();
-		ImGui::InputInt("##Sample Count", &SampleCount);
-	}
-
 	// Export CSV button
-	ImGui::Spacing();
-	ImGui::Text("                   ");
+	ImGui::SameLine();
+	ImGui::Text(" ");
 	ImGui::SameLine();
 	if (ImGui::Button("  Export CSV  "))
 	{
@@ -166,8 +169,13 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV
 		case 2:
 			exportSuccess = CSVExporter::ExportCurveSamples(curve, "curve_samples.csv", SampleCount);
 			break;
+		case 3:
+			exportSuccess = CSVExporter::ExportBasisFunctions(curve, "basis_function.csv", SampleCount);
+			break;
 		}
 	}
+
+	
 
 	// Export CSV success/fail message
 	ImGui::Separator();

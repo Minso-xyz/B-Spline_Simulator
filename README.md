@@ -18,12 +18,12 @@ Interactive B-Spline Curve and Surface Simulator written in C++ and OpenGL.
 - Polyline Generation
 - Control Polygon Rendering
 - Camera Controls
+- CSV Export
+- Interactive UI
  
 ### Planned
 - B-Spline Surface
-- CSV Export
 - Basis Function Visualization
-- Interactive UI
  
 ## Technologies
 - C++

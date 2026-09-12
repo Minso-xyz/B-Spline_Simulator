@@ -11,6 +11,7 @@ private:
 	int EditingControlPoint;
 	std::vector<Point3D> EditingControlPoints;
 	int EditingControlPointCount;
+	int SampleCount;
 
 public:
 	SimulatorUI(const BSplineCurve& curve);

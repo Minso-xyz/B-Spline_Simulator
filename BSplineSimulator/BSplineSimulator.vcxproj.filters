@@ -45,10 +45,10 @@
     <ClCompile Include="imgui\backends\imgui_impl_opengl2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimulatorUI.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="CSVExporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatorUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,10 +83,10 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimulatorUI.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="CSVExporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatorUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,6 +8,7 @@ SimulatorUI::SimulatorUI(const BSplineCurve& curve)
 	EditingDegree = curve.Degree;
 	EditingControlPoints = curve.ControlPoints;
 	EditingControlPointCount = static_cast<int>(curve.ControlPoints.size());
+	SampleCount = 50;
 }
 
 const char* viewNames[]
@@ -22,7 +23,8 @@ static int currentView = 3;
 const char* dataExportCSV[]
 {
 	"Control Points",
-	"Knot Vector"
+	"Knot Vector",
+	"Curve Sample Points"
 };
 static int currentDataType = 0;
 
@@ -135,6 +137,18 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV
 	ImGui::Text("          Data type");
 	ImGui::SameLine();
 	ImGui::Combo("##DataType", &currentDataType, dataExportCSV, IM_ARRAYSIZE(dataExportCSV));
+
+	// Sample count input (only for "Curve sample points")
+	ImGui::Text("   ");
+	if (currentDataType == 2)
+	{
+		ImGui::Text("       Sample Count");
+		ImGui::SameLine();
+		ImGui::InputInt("##Sample Count", &SampleCount);
+	}
+
+	// Export CSV button
+	ImGui::Spacing();
 	ImGui::Text("                   ");
 	ImGui::SameLine();
 	if (ImGui::Button("  Export CSV  "))
@@ -144,12 +158,13 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV
 		switch (currentDataType)
 		{
 		case 0:
-			//dataCSV.ExportControlPoints(curve, currentDataType + ".csv");
 			exportSuccess = CSVExporter::ExportControlPoints(curve, "control_points.csv");
 			break;
 		case 1:
-			//dataCSV.ExportKnotVector(curve, currentDataType + ".csv");
 			exportSuccess = CSVExporter::ExportKnotVector(curve, "knot_vectors.csv");
+			break;
+		case 2:
+			exportSuccess = CSVExporter::ExportCurveSamples(curve, "curve_samples.csv", SampleCount);
 			break;
 		}
 	}

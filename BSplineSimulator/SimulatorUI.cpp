@@ -1,6 +1,7 @@
 #include "SimulatorUI.h"
 #include "Imgui.h"
 #include "BSplineCurve.h"
+#include "CSVExporter.h"
 
 SimulatorUI::SimulatorUI(const BSplineCurve& curve)
 {
@@ -18,6 +19,10 @@ const char* viewNames[]
 };
 
 static int currentView = 3;
+
+// CSV Export
+bool exportAttempted = false;
+bool exportSuccess = false;
 
 // false : Apply button not clicked
 // true : curve is updated
@@ -95,10 +100,11 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 		}
 	}
 
+	// Update Curve
 	ImGui::Spacing();
 	ImGui::Text("                   ");
 	ImGui::SameLine();
-	if (ImGui::Button("  Apply Curve  "))
+	if (ImGui::Button("  Update Curve  "))
 	{
 		if (valid)
 		{
@@ -115,6 +121,30 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 		ImGui::EndDisabled();
 	}
 
+	// Export CSV file
+	ImGui::SameLine();
+	if (ImGui::Button("  Export CSV  "))
+	{
+		exportAttempted = true;
+		std::string fileName = "control_points.csv";
+		exportSuccess = CSVExporter::ExportControlPoints(curve, fileName);
+	}
+
+	// Export CSV success/fail message
+	ImGui::Spacing();
+	if (exportAttempted)
+	{
+		if (exportSuccess)
+		{
+			ImGui::Text("CSV file has been generated.");
+		}
+		else
+		{
+			ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f),
+				"CSV file generation has been failed.");
+		}
+	}
+	
 	ImGui::End();
 	return curveUpdated;
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include "BSplineCurve.h"
 #include "Camera.h"
+#include "SimulatorUI.h"
+#include "CSVExporter.h"
 
 class SimulatorUI
 {
@@ -10,12 +12,9 @@ private:
 	std::vector<Point3D> EditingControlPoints;
 	int EditingControlPointCount;
 
-//public:
-//	int Degree = 3;
-
 public:
 	SimulatorUI(const BSplineCurve& curve);
-	bool Draw(BSplineCurve& curve, Camera& camera);
+	bool Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV);
 
 private:
 	void ResizeControlPoints();

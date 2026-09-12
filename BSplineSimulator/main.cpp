@@ -9,6 +9,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl2.h"
 #include "SimulatorUI.h"
+#include "CSVExporter.h"
 
 Camera* gCamera = nullptr;
 
@@ -36,6 +37,7 @@ int main()
 	Camera camera;
 	gCamera = &camera;
 	Renderer renderer;
+	CSVExporter CSVExporter;
 	
 	BSplineCurve curve(
 		{
@@ -78,7 +80,7 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		bool curveUpdated = ui.Draw(curve, camera);
+		bool curveUpdated = ui.Draw(curve, camera, CSVExporter);
 
 		ImGuiIO& io = ImGui::GetIO();
 

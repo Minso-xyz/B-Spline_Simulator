@@ -17,8 +17,15 @@ const char* viewNames[]
 	"Top",
 	"Isometric"
 };
-
 static int currentView = 3;
+
+const char* dataExportCSV[]
+{
+	"Control Points",
+	"Knot Vector"
+};
+static int currentDataType = 0;
+
 
 // CSV Export
 bool exportAttempted = false;
@@ -26,7 +33,7 @@ bool exportSuccess = false;
 
 // false : Apply button not clicked
 // true : curve is updated
-bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
+bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV)
 {
 	bool curveUpdated = false;
 
@@ -122,15 +129,33 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera)
 	}
 
 	// Export CSV file
+	// Select the type of date to export
+	ImGui::Separator();
+	ImGui::Spacing();
+	ImGui::Text("          Data type");
+	ImGui::SameLine();
+	ImGui::Combo("##DataType", &currentDataType, dataExportCSV, IM_ARRAYSIZE(dataExportCSV));
+	ImGui::Text("                   ");
 	ImGui::SameLine();
 	if (ImGui::Button("  Export CSV  "))
 	{
 		exportAttempted = true;
-		std::string fileName = "control_points.csv";
-		exportSuccess = CSVExporter::ExportControlPoints(curve, fileName);
+
+		switch (currentDataType)
+		{
+		case 0:
+			//dataCSV.ExportControlPoints(curve, currentDataType + ".csv");
+			exportSuccess = CSVExporter::ExportControlPoints(curve, "control_points.csv");
+			break;
+		case 1:
+			//dataCSV.ExportKnotVector(curve, currentDataType + ".csv");
+			exportSuccess = CSVExporter::ExportKnotVector(curve, "knot_vectors.csv");
+			break;
+		}
 	}
 
 	// Export CSV success/fail message
+	ImGui::Separator();
 	ImGui::Spacing();
 	if (exportAttempted)
 	{

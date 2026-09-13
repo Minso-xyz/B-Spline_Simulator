@@ -39,7 +39,7 @@ int main()
 	gCamera = &camera;
 	Renderer renderer;
 	CSVExporter CSVExporter;
-	
+
 	// B-Spline Curve test
 	BSplineCurve curve(
 		{
@@ -55,7 +55,57 @@ int main()
 		3
 	);
 
-	// B-Spline Surface test
+	//// Gaussian
+	//BSplineSurface surface;
+
+	//surface.DegreeU = 3;
+	//surface.DegreeV = 3;
+
+	//surface.KnotsU =
+	//{
+	//0.0, 0.0, 0.0, 0.0,
+	//1.0, 1.0, 1.0, 1.0
+	//};
+
+	//surface.KnotsV =
+	//{
+	//0.0, 0.0, 0.0, 0.0,
+	//1.0, 1.0, 1.0, 1.0
+	//};
+
+	//surface.ControlNet =
+	//{
+	//{
+	//Point3D(0, 15, 0),
+	//Point3D(10, 18, 0),
+	//Point3D(20, 18, 0),
+	//Point3D(30, 15, 0)
+	//},
+
+	//{
+	//Point3D(0, 22, 10),
+	//Point3D(10, 35, 10),
+	//Point3D(20, 35, 10),
+	//Point3D(30, 22, 10)
+	//},
+
+	//{
+	//Point3D(0, 22, 20),
+	//Point3D(10, 50, 20),
+	//Point3D(20, 50, 20),
+	//Point3D(30, 22, 20)
+	//},
+
+	//{
+	//Point3D(0, 15, 30),
+	//Point3D(10, 18, 30),
+	//Point3D(20, 18, 30),
+	//Point3D(30, 15, 30)
+	//}
+	//
+	//};
+
+	// wave
 	BSplineSurface surface;
 
 	surface.DegreeU = 3;
@@ -63,46 +113,48 @@ int main()
 
 	surface.KnotsU =
 	{
-	0,0,0,0,
-	1,1,1,1
+	0.0, 0.0, 0.0, 0.0,
+	1.0, 1.0, 1.0, 1.0
 	};
 
 	surface.KnotsV =
 	{
-	0,0,0,0,
-	1,1,1,1
+	0.0, 0.0, 0.0, 0.0,
+	1.0, 1.0, 1.0, 1.0
 	};
 
 	surface.ControlNet =
 	{
 	{
-	Point3D(0,0,0),
-	Point3D(10,0,0),
-	Point3D(20,0,0),
-	Point3D(30,0,0)
+	Point3D(0, 20, 0),
+	Point3D(10, 40, 0),
+	Point3D(20, 15, 0),
+	Point3D(30, 35, 0)
 	},
 
 	{
-	Point3D(0,10,0),
-	Point3D(10,10,15),
-	Point3D(20,10,15),
-	Point3D(30,10,0)
+	Point3D(0, 35, 10),
+	Point3D(10, 55, 10),
+	Point3D(20, 30, 10),
+	Point3D(30, 45, 10)
 	},
 
 	{
-	Point3D(0,20,0),
-	Point3D(10,20,15),
-	Point3D(20,20,15),
-	Point3D(30,20,0)
+	Point3D(0, 15, 20),
+	Point3D(10, 35, 20),
+	Point3D(20, 10, 20),
+	Point3D(30, 25, 20)
 	},
 
 	{
-	Point3D(0,30,0),
-	Point3D(10,30,0),
-	Point3D(20,30,0),
-	Point3D(30,30,0)
+	Point3D(0, 30, 30),
+	Point3D(10, 50, 30),
+	Point3D(20, 25, 30),
+	Point3D(30, 40, 30)
 	}
+
 	};
+
 
 	SimulatorUI ui(curve);
 
@@ -155,7 +207,10 @@ int main()
 		renderer.DrawControlPolygon(curve.ControlPoints);
 
 		// Draw B-Spline Surface
-
+		if (ui.ShowSurface)
+		{
+			renderer.DrawBSplineSurface(surface, ui.SampleCountSurface);
+		}
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();   // handle the mouse/keyboard inputs

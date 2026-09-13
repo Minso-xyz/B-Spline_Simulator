@@ -3,20 +3,24 @@
 #include "Camera.h"
 #include "SimulatorUI.h"
 #include "CSVExporter.h"
+#include "BSplineSurface.h"
 
 class SimulatorUI
 {
-private:
+public:
 	int EditingDegree;
 	int EditingControlPoint;
 	std::vector<Point3D> EditingControlPoints;
 	int EditingControlPointCount;
 	int SampleCount;
+	int SampleCountSurface;
+
+	bool ShowSurface;
+	bool ShowControlNet;
 
 public:
 	SimulatorUI(const BSplineCurve& curve);
-	bool Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV);
-	void UI_BSplineCurve(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV);
+	bool Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& camera, CSVExporter& dataCSV);
 
 private:
 	void ResizeControlPoints();

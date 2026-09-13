@@ -140,7 +140,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BSplineSurface.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CSVExporter.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_glfw.cpp" />

@@ -2,6 +2,7 @@
 #include "Imgui.h"
 #include "BSplineCurve.h"
 #include "CSVExporter.h"
+#include "BSplineSurface.h"
 
 SimulatorUI::SimulatorUI(const BSplineCurve& curve)
 {
@@ -9,6 +10,11 @@ SimulatorUI::SimulatorUI(const BSplineCurve& curve)
 	EditingControlPoints = curve.ControlPoints;
 	EditingControlPointCount = static_cast<int>(curve.ControlPoints.size());
 	SampleCount = 50;
+	SampleCountSurface = 30;
+
+	// B-Spline surface visualization
+	ShowSurface = true;
+	ShowControlNet = true;
 }
 
 const char* viewNames[]
@@ -29,6 +35,14 @@ const char* dataExportCSV[]
 };
 static int currentDataType = 0;
 
+const char* presets[]
+{
+	"Flat",
+	"Dome",
+	"Wave",
+	"Gaussian"
+};
+static int currentPreset = 3;
 
 // CSV Export
 bool exportAttempted = false;
@@ -36,10 +50,11 @@ bool exportSuccess = false;
 
 // false : Apply button not clicked
 // true : curve is updated
-bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV)
+bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& camera, CSVExporter& dataCSV)
 {
 	bool curveUpdated = false;
 
+	ImGui::Begin("B-Spline Simulator");
 	if (ImGui::BeginTabBar("SimulatorTabs"))
 	{
 		if (ImGui::BeginTabItem("Curve"))
@@ -51,7 +66,7 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV
 
 			ImGui::Text("Control Point Count");
 			ImGui::SameLine();
-			if (ImGui::InputInt("##Control Point Count", &EditingControlPointCount))  // boolean?
+			if (ImGui::InputInt("##Control Point Count", &EditingControlPointCount))
 			{
 				ResizeControlPoints();
 			}
@@ -195,15 +210,122 @@ bool SimulatorUI::Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV
 			ImGui::EndTabItem();
 		}
 
+		// B-Spline Surface  UI
+		int maxDegreeU = static_cast<int>(surface.ControlNet.size()) - 1;
+		int maxDegreeV = static_cast<int>(surface.ControlNet[0].size()) - 1;
+
+
 		if (ImGui::BeginTabItem("Surface"))
 		{
-			// B-Spline Surface  UI
+			
+			if (ImGui::BeginTabBar("SurfaceTabs"))
+			{
+				
+				if (ImGui::BeginTabItem("Preset"))
+				{
+					// Select the preset
+					ImGui::Text("    Preset");
+					ImGui::SameLine();
+					if (ImGui::Combo("##Preset", &currentPreset, presets, IM_ARRAYSIZE(presets)))
+					{
+
+					}
+
+					ImGui::Text("       ");
+					ImGui::Text("       ");
+
+					ImGui::EndTabItem();
+				}
+				
+
+				// Parameters
+				if (ImGui::BeginTabItem("Parameters"))
+				{
+					// Degree U
+					ImGui::Text("    Degree U");
+					ImGui::SameLine();
+					ImGui::InputInt("##Degree U", & surface.DegreeU);
+					surface.DegreeU = std::max(1,std::min(surface.DegreeU,maxDegreeU));
+
+					// Degree V
+					ImGui::Text("    Degree V");
+					ImGui::SameLine();
+					ImGui::InputInt("##Degree V", &surface.DegreeV);
+					surface.DegreeV =std::max(1,std::min(surface.DegreeV,maxDegreeV));
+
+					// Sample Count
+					ImGui::Text("Sample Count");
+					ImGui::SameLine();
+					ImGui::InputInt("##Sample Count", &SampleCountSurface);
+
+					ImGui::EndTabItem();
+				}
+
+				// Visualization options : Show surface / Control net
+				if (ImGui::BeginTabItem("Visualization"))
+				{
+					ImGui::Text("       ");
+					ImGui::SameLine();
+					ImGui::Checkbox("Show Surface", &ShowSurface);
+					ImGui::Text("       ");
+					ImGui::SameLine();
+					ImGui::Checkbox("Show Control Net",&ShowControlNet);
+
+					ImGui::Spacing();
+					// Set camera view
+					ImGui::Text("      View");
+					ImGui::SameLine();
+					if (ImGui::Combo("##View", &currentView, viewNames, IM_ARRAYSIZE(viewNames)))
+					{
+						switch (currentView)
+						{
+						case 0:
+							camera.SetFrontView();
+							break;
+						case 1:
+							camera.SetRightView();
+							break;
+						case 2:
+							camera.SetTopView();
+							break;
+						case 3:
+							camera.SetIsometricView();
+							break;
+						}
+					}
+
+					ImGui::EndTabItem();
+				}
+
+				// Control Net
+				if (ImGui::BeginTabItem("Control Net"))
+				{
+					if (ImGui::TreeNode("Control Net"))
+					{
+
+					}
+
+					ImGui::EndTabItem();
+				}
+
+				
+
+				ImGui::EndTabBar();
+			}
 
 			ImGui::EndTabItem();
+
+			
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Button("  Update Surface  ");
 		}
 
 		ImGui::EndTabBar();
 	}
+
+	ImGui::End();
 	return curveUpdated;
 }
 

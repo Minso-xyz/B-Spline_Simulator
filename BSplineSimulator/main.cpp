@@ -131,7 +131,7 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		bool curveUpdated = ui.Draw(curve, camera, CSVExporter);
+		bool curveUpdated = ui.Draw(curve, surface, camera, CSVExporter);
 
 		ImGuiIO& io = ImGui::GetIO();
 
@@ -146,8 +146,6 @@ int main()
 			BoundingBox box = BoundingBox::CalculateBoundingBox(curve.ControlPoints);
 			camera.FitTargetBox(box);
 		}
-		renderer.DrawBSplineCurve(curve);
-		renderer.DrawControlPolygon(curve.ControlPoints);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -155,6 +153,9 @@ int main()
 		renderer.DrawCoordinateAxis();   // Draw the coordinate axis
 		renderer.DrawBSplineCurve(curve);   // Draw B-Spline Curve
 		renderer.DrawControlPolygon(curve.ControlPoints);
+
+		// Draw B-Spline Surface
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();   // handle the mouse/keyboard inputs

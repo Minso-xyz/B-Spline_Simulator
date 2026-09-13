@@ -48,3 +48,27 @@ double BSplineSurface::BasisFunction(int i, int degree, double t, const std::vec
 	return left + right;
 }
 
+std::vector<Point3D> BSplineSurface::CreateIsoCurveU(double u, int sampleCount)
+{
+	std::vector<Point3D> points;
+
+	for (int i = 0; i < sampleCount; i++)
+	{
+		double v = static_cast<double>(i) / static_cast<double>(sampleCount);
+		points.push_back(Evaluate(u, v));
+	}
+	return points;
+}
+
+std::vector<Point3D> BSplineSurface::CreateIsoCurveV(double v, int sampleCount)
+{
+	std::vector<Point3D> points;
+
+	for (int i = 0; i < sampleCount; i++)
+	{
+		double u = static_cast<double>(i) / static_cast<double>(sampleCount);
+		points.push_back(Evaluate(u, v));
+	}
+	return points;
+}
+

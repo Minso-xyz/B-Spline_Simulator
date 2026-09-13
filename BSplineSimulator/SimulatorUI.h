@@ -16,6 +16,7 @@ private:
 public:
 	SimulatorUI(const BSplineCurve& curve);
 	bool Draw(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV);
+	void UI_BSplineCurve(BSplineCurve& curve, Camera& camera, CSVExporter& dataCSV);
 
 private:
 	void ResizeControlPoints();

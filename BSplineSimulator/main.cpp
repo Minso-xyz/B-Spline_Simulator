@@ -10,6 +10,7 @@
 #include "imgui_impl_opengl2.h"
 #include "SimulatorUI.h"
 #include "CSVExporter.h"
+#include "BSplineSurface.h"
 
 Camera* gCamera = nullptr;
 
@@ -39,6 +40,7 @@ int main()
 	Renderer renderer;
 	CSVExporter CSVExporter;
 	
+	// B-Spline Curve test
 	BSplineCurve curve(
 		{
 			Point3D(0,0,0),
@@ -52,6 +54,55 @@ int main()
 		},
 		3
 	);
+
+	// B-Spline Surface test
+	BSplineSurface surface;
+
+	surface.DegreeU = 3;
+	surface.DegreeV = 3;
+
+	surface.KnotsU =
+	{
+	0,0,0,0,
+	1,1,1,1
+	};
+
+	surface.KnotsV =
+	{
+	0,0,0,0,
+	1,1,1,1
+	};
+
+	surface.ControlNet =
+	{
+	{
+	Point3D(0,0,0),
+	Point3D(10,0,0),
+	Point3D(20,0,0),
+	Point3D(30,0,0)
+	},
+
+	{
+	Point3D(0,10,0),
+	Point3D(10,10,15),
+	Point3D(20,10,15),
+	Point3D(30,10,0)
+	},
+
+	{
+	Point3D(0,20,0),
+	Point3D(10,20,15),
+	Point3D(20,20,15),
+	Point3D(30,20,0)
+	},
+
+	{
+	Point3D(0,30,0),
+	Point3D(10,30,0),
+	Point3D(20,30,0),
+	Point3D(30,30,0)
+	}
+	};
 
 	SimulatorUI ui(curve);
 
@@ -127,3 +178,4 @@ void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
 		gCamera->HandleScroll(yOffset);  // only yOffset is used (Up-down mouse wheel)
 	}
 }
+

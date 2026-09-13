@@ -152,6 +152,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SimulatorUI.cpp" />
+    <ClCompile Include="SurfacePreset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SimulatorUI.h" />
+    <ClInclude Include="SurfacePreset.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

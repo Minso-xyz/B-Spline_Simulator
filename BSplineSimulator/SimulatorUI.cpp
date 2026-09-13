@@ -3,6 +3,7 @@
 #include "BSplineCurve.h"
 #include "CSVExporter.h"
 #include "BSplineSurface.h"
+#include "SurfacePreset.h"
 
 SimulatorUI::SimulatorUI(const BSplineCurve& curve)
 {
@@ -13,6 +14,7 @@ SimulatorUI::SimulatorUI(const BSplineCurve& curve)
 	SampleCountSurface = 30;
 
 	// B-Spline surface visualization
+	ShowCurve = true;
 	ShowSurface = true;
 	ShowControlNet = true;
 }
@@ -35,7 +37,7 @@ const char* dataExportCSV[]
 };
 static int currentDataType = 0;
 
-const char* presets[]
+const char* surfacePresets[]
 {
 	"Flat",
 	"Dome",
@@ -43,6 +45,14 @@ const char* presets[]
 	"Gaussian"
 };
 static int currentPreset = 3;
+
+const char* degreeOptions[]
+{
+	"1",
+	"2",
+	"3"
+};
+static int degreeIndex = 2;
 
 // CSV Export
 bool exportAttempted = false;
@@ -146,6 +156,9 @@ bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& cam
 				ImGui::InputInt("##Sample Count", &SampleCount);
 			}
 
+			// Show Curve option
+			ImGui::Checkbox("Show Curve", &ShowCurve);
+
 			// Update Curve
 			ImGui::Spacing();
 			ImGui::Text("                   ");
@@ -213,8 +226,7 @@ bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& cam
 		// B-Spline Surface  UI
 		int maxDegreeU = static_cast<int>(surface.ControlNet.size()) - 1;
 		int maxDegreeV = static_cast<int>(surface.ControlNet[0].size()) - 1;
-
-
+		
 		if (ImGui::BeginTabItem("Surface"))
 		{
 			
@@ -226,9 +238,25 @@ bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& cam
 					// Select the preset
 					ImGui::Text("    Preset");
 					ImGui::SameLine();
-					if (ImGui::Combo("##Preset", &currentPreset, presets, IM_ARRAYSIZE(presets)))
+					if (ImGui::Combo("##Preset", &currentPreset, surfacePresets, IM_ARRAYSIZE(surfacePresets)))
 					{
+						switch (currentPreset)
+						{
+						case 0: // Flat
+							ApplyFlatPreset(surface);
+							break;
 
+						case 1:  // Dome
+							ApplyDomePreset(surface);
+							break;
+
+						case 2:  // Wave
+							ApplyWavePreset(surface);
+							break;
+						case 3:
+							ApplyGaussianPreset(surface);
+							break;
+						}
 					}
 
 					ImGui::Text("       ");
@@ -244,14 +272,80 @@ bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& cam
 					// Degree U
 					ImGui::Text("    Degree U");
 					ImGui::SameLine();
-					ImGui::InputInt("##Degree U", & surface.DegreeU);
-					surface.DegreeU = std::max(1,std::min(surface.DegreeU,maxDegreeU));
+					//ImGui::InputInt("##Degree U", & surface.DegreeU);
+					//surface.DegreeU = std::max(1,std::min(surface.DegreeU,maxDegreeU));
+					if (ImGui::Combo("##Degree U", &degreeIndex, degreeOptions, IM_ARRAYSIZE(degreeOptions)))
+					{
+						surface.DegreeU = degreeIndex;
+						switch (surface.DegreeU)
+						{
+						case 1:
+							surface.KnotsU =
+							{
+							0,0,
+							0.333,
+							0.666,
+							1,1
+							};
+							break;
+
+						case 2:
+							surface.KnotsU =
+							{
+							0,0,0,
+							0.5,
+							1,1,1
+							};
+							break;
+
+						case 3:
+							surface.KnotsU =
+							{
+							0,0,0,0,
+							1,1,1,1
+							};
+							break;
+						}
+					}
 
 					// Degree V
 					ImGui::Text("    Degree V");
 					ImGui::SameLine();
-					ImGui::InputInt("##Degree V", &surface.DegreeV);
-					surface.DegreeV =std::max(1,std::min(surface.DegreeV,maxDegreeV));
+					//ImGui::InputInt("##Degree V", &surface.DegreeV);
+					//surface.DegreeV =std::max(1,std::min(surface.DegreeV,maxDegreeV));
+					if (ImGui::Combo("##Degree V", &degreeIndex, degreeOptions, IM_ARRAYSIZE(degreeOptions)))
+					{
+						surface.DegreeV = degreeIndex;
+						switch (surface.DegreeV)
+						{
+						case 1:
+							surface.KnotsV =
+							{
+							0,0,
+							0.333,
+							0.666,
+							1,1
+							};
+							break;
+
+						case 2:
+							surface.KnotsV =
+							{
+							0,0,0,
+							0.5,
+							1,1,1
+							};
+							break;
+
+						case 3:
+							surface.KnotsV =
+							{
+							0,0,0,0,
+							1,1,1,1
+							};
+							break;
+						}
+					}
 
 					// Sample Count
 					ImGui::Text("Sample Count");
@@ -297,16 +391,16 @@ bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& cam
 					ImGui::EndTabItem();
 				}
 
-				// Control Net
-				if (ImGui::BeginTabItem("Control Net"))
-				{
-					if (ImGui::TreeNode("Control Net"))
-					{
+				//// Control Net
+				//if (ImGui::BeginTabItem("Control Net"))
+				//{
+				//	if (ImGui::TreeNode("Control Net"))
+				//	{
 
-					}
+				//	}
 
-					ImGui::EndTabItem();
-				}
+				//	ImGui::EndTabItem();
+				//}
 
 				
 
@@ -317,9 +411,9 @@ bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& cam
 
 			
 
-			ImGui::Spacing();
+			/*ImGui::Spacing();
 			ImGui::Separator();
-			ImGui::Button("  Update Surface  ");
+			ImGui::Button("  Update Surface  ");*/
 		}
 
 		ImGui::EndTabBar();

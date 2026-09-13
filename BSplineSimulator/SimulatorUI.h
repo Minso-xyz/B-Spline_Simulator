@@ -15,6 +15,7 @@ public:
 	int SampleCount;
 	int SampleCountSurface;
 
+	bool ShowCurve;
 	bool ShowSurface;
 	bool ShowControlNet;
 

@@ -55,57 +55,7 @@ int main()
 		3
 	);
 
-	//// Gaussian
-	//BSplineSurface surface;
-
-	//surface.DegreeU = 3;
-	//surface.DegreeV = 3;
-
-	//surface.KnotsU =
-	//{
-	//0.0, 0.0, 0.0, 0.0,
-	//1.0, 1.0, 1.0, 1.0
-	//};
-
-	//surface.KnotsV =
-	//{
-	//0.0, 0.0, 0.0, 0.0,
-	//1.0, 1.0, 1.0, 1.0
-	//};
-
-	//surface.ControlNet =
-	//{
-	//{
-	//Point3D(0, 15, 0),
-	//Point3D(10, 18, 0),
-	//Point3D(20, 18, 0),
-	//Point3D(30, 15, 0)
-	//},
-
-	//{
-	//Point3D(0, 22, 10),
-	//Point3D(10, 35, 10),
-	//Point3D(20, 35, 10),
-	//Point3D(30, 22, 10)
-	//},
-
-	//{
-	//Point3D(0, 22, 20),
-	//Point3D(10, 50, 20),
-	//Point3D(20, 50, 20),
-	//Point3D(30, 22, 20)
-	//},
-
-	//{
-	//Point3D(0, 15, 30),
-	//Point3D(10, 18, 30),
-	//Point3D(20, 18, 30),
-	//Point3D(30, 15, 30)
-	//}
-	//
-	//};
-
-	// wave
+	// Gaussian
 	BSplineSurface surface;
 
 	surface.DegreeU = 3;
@@ -126,34 +76,84 @@ int main()
 	surface.ControlNet =
 	{
 	{
-	Point3D(0, 20, 0),
-	Point3D(10, 40, 0),
-	Point3D(20, 15, 0),
-	Point3D(30, 35, 0)
+	Point3D(0, 15, 0),
+	Point3D(10, 18, 0),
+	Point3D(20, 18, 0),
+	Point3D(30, 15, 0)
 	},
 
 	{
-	Point3D(0, 35, 10),
-	Point3D(10, 55, 10),
-	Point3D(20, 30, 10),
-	Point3D(30, 45, 10)
+	Point3D(0, 22, 10),
+	Point3D(10, 35, 10),
+	Point3D(20, 35, 10),
+	Point3D(30, 22, 10)
 	},
 
 	{
-	Point3D(0, 15, 20),
-	Point3D(10, 35, 20),
-	Point3D(20, 10, 20),
-	Point3D(30, 25, 20)
+	Point3D(0, 22, 20),
+	Point3D(10, 50, 20),
+	Point3D(20, 50, 20),
+	Point3D(30, 22, 20)
 	},
 
 	{
-	Point3D(0, 30, 30),
-	Point3D(10, 50, 30),
-	Point3D(20, 25, 30),
-	Point3D(30, 40, 30)
+	Point3D(0, 15, 30),
+	Point3D(10, 18, 30),
+	Point3D(20, 18, 30),
+	Point3D(30, 15, 30)
 	}
-
+	
 	};
+
+	//// wave
+	//BSplineSurface surface;
+
+	//surface.DegreeU = 3;
+	//surface.DegreeV = 3;
+
+	//surface.KnotsU =
+	//{
+	//0.0, 0.0, 0.0, 0.0,
+	//1.0, 1.0, 1.0, 1.0
+	//};
+
+	//surface.KnotsV =
+	//{
+	//0.0, 0.0, 0.0, 0.0,
+	//1.0, 1.0, 1.0, 1.0
+	//};
+
+	//surface.ControlNet =
+	//{
+	//{
+	//Point3D(0, 20, 0),
+	//Point3D(10, 40, 0),
+	//Point3D(20, 15, 0),
+	//Point3D(30, 35, 0)
+	//},
+
+	//{
+	//Point3D(0, 35, 10),
+	//Point3D(10, 55, 10),
+	//Point3D(20, 30, 10),
+	//Point3D(30, 45, 10)
+	//},
+
+	//{
+	//Point3D(0, 15, 20),
+	//Point3D(10, 35, 20),
+	//Point3D(20, 10, 20),
+	//Point3D(30, 25, 20)
+	//},
+
+	//{
+	//Point3D(0, 30, 30),
+	//Point3D(10, 50, 30),
+	//Point3D(20, 25, 30),
+	//Point3D(30, 40, 30)
+	//}
+
+	//};
 
 
 	SimulatorUI ui(curve);
@@ -203,9 +203,14 @@ int main()
 		ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 		renderer.DrawCoordinateAxis();   // Draw the coordinate axis
-		renderer.DrawBSplineCurve(curve);   // Draw B-Spline Curve
-		renderer.DrawControlPolygon(curve.ControlPoints);
 
+		// Draw B-Spline Curve
+		if (ui.ShowCurve)
+		{
+			renderer.DrawBSplineCurve(curve);
+			renderer.DrawControlPolygon(curve.ControlPoints);
+		}
+		
 		// Draw B-Spline Surface
 		if (ui.ShowSurface)
 		{

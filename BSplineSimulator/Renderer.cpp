@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 #include "BSplineCurve.h"
+#include "BSplineSurface.h"
 
 void Renderer::DrawPoint(const Point3D& point)
 {
@@ -78,6 +79,23 @@ void Renderer::DrawBSplineCurve(const BSplineCurve& curve)
 {
 	std::vector<Point3D> points = curve.CreatePolyline(100);
 	DrawPolyline(points);
+}
+
+void Renderer::DrawBSplineSurface(const BSplineSurface& surface, int sampleCount)
+{
+	for (int i = 0; i <= sampleCount; i++)
+	{
+		double u = static_cast<double>(i) / static_cast<double>(sampleCount);
+		std::vector<Point3D> pointsU = surface.CreateIsoCurveU(u, sampleCount);
+		DrawPolyline(pointsU);
+	}
+
+	for (int j = 0; j <= sampleCount; j++)
+	{
+		double v = static_cast<double>(j) / static_cast<double>(sampleCount);
+		std::vector<Point3D> pointsV = surface.CreateIsoCurveV(v, sampleCount);
+		DrawPolyline(pointsV);
+	}
 }
 
 void Renderer::DrawVertex(const Vertex& vertex)

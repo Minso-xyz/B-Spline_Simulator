@@ -5,6 +5,7 @@
 #include "Edge.h"
 #include "Circle3D.h"
 #include "BSplineCurve.h"
+#include "BSplineSurface.h"
 
 class Renderer
 {
@@ -17,6 +18,7 @@ public:
 	void DrawPolyline(const std::vector<Point3D>& points);
 	void DrawControlPolygon(std::vector < Point3D> controlPoints);
 	void DrawBSplineCurve(const BSplineCurve& curve);
+	void DrawBSplineSurface(const BSplineSurface& surface, int sampleCount);
 	void DrawVertex(const Vertex& vertex);
 	void DrawEdge(const Edge& edge);
 	void DrawCube();

@@ -140,3 +140,43 @@ bool CSVExporter::ExportBasisFunctions(const BSplineCurve& curve, const std::str
 
 	return true;
 }
+
+bool CSVExporter::ExportSurfaceSamples(const BSplineSurface& surface, const std::string& fileName, int sampleCount)
+{
+	// create a new csv file or overwrite if the file already exists
+	std::ofstream file(fileName);
+
+	// returns false in case the file couldnt be generated (the file is open)
+	if (!file.is_open())
+	{
+		return false;
+	}
+
+	// set the precision of the numbers exported
+	file << std::fixed << std::setprecision(6);
+
+	// CSV header
+	file << "u,v,X,Y,Z\n";
+
+	for (int i = 0; i <= sampleCount; i++)
+	{
+		double u = static_cast<double>(i) / static_cast<double>(sampleCount);
+
+		for (int j = 0; j <= sampleCount; j++)
+		{
+			double v = static_cast<double>(j) / static_cast<double>(sampleCount);
+
+			Point3D point = surface.Evaluate(u, v);
+
+			file << u << ", "
+				<< v << ","
+				<< point.X << ","
+				<< point.Y << ","
+				<< point.Z << "\n";
+		}
+	}
+
+	file.close();
+
+	return true;
+}

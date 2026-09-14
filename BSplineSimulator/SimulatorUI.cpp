@@ -37,6 +37,12 @@ const char* dataExportCSV[]
 };
 static int currentDataType = 0;
 
+const char* dataExportCSVSurface[]
+{
+	"Surface Sample Points"
+};
+static int currentDataTypeSurface = 0;
+
 const char* surfacePresets[]
 {
 	"Flat",
@@ -229,155 +235,189 @@ bool SimulatorUI::Draw(BSplineCurve& curve, BSplineSurface& surface, Camera& cam
 
 		if (ImGui::BeginTabItem("Surface"))
 		{
-				// Select the preset
-				ImGui::Text("      Preset");
-				ImGui::SameLine();
-				if (ImGui::Combo("##Preset", &currentPreset, surfacePresets, IM_ARRAYSIZE(surfacePresets)))
+			// Select the preset
+			ImGui::Text("      Preset");
+			ImGui::SameLine();
+			if (ImGui::Combo("##Preset", &currentPreset, surfacePresets, IM_ARRAYSIZE(surfacePresets)))
+			{
+				switch (currentPreset)
 				{
-					switch (currentPreset)
-					{
-					case 0: // Flat
-						ApplyFlatPreset(surface);
-						break;
+				case 0: // Flat
+					ApplyFlatPreset(surface);
+					break;
 
-					case 1:  // Dome
-						ApplyDomePreset(surface);
-						break;
+				case 1:  // Dome
+					ApplyDomePreset(surface);
+					break;
 
-					case 2:  // Wave
-						ApplyWavePreset(surface);
-						break;
-					case 3:
-						ApplyGaussianPreset(surface);
-						break;
-					}
+				case 2:  // Wave
+					ApplyWavePreset(surface);
+					break;
+				case 3:
+					ApplyGaussianPreset(surface);
+					break;
 				}
-
-				ImGui::Separator();
-
-				// Degree U
-				ImGui::Text("    Degree U");
-				ImGui::SameLine();
-				//ImGui::InputInt("##Degree U", & surface.DegreeU);
-				//surface.DegreeU = std::max(1,std::min(surface.DegreeU,maxDegreeU));
-				if (ImGui::Combo("##Degree U", &degreeIndex, degreeOptions, IM_ARRAYSIZE(degreeOptions)))
-				{
-					surface.DegreeU = degreeIndex;
-					switch (surface.DegreeU)
-					{
-					case 1:
-						surface.KnotsU =
-						{
-						0,0,
-						0.333,
-						0.666,
-						1,1
-						};
-						break;
-
-					case 2:
-						surface.KnotsU =
-						{
-						0,0,0,
-						0.5,
-						1,1,1
-						};
-						break;
-
-					case 3:
-						surface.KnotsU =
-						{
-						0,0,0,0,
-						1,1,1,1
-						};
-						break;
-					}
-				}
-
-				// Degree V
-				ImGui::Text("    Degree V");
-				ImGui::SameLine();
-				//ImGui::InputInt("##Degree V", &surface.DegreeV);
-				//surface.DegreeV =std::max(1,std::min(surface.DegreeV,maxDegreeV));
-				if (ImGui::Combo("##Degree V", &degreeIndex, degreeOptions, IM_ARRAYSIZE(degreeOptions)))
-				{
-					surface.DegreeV = degreeIndex;
-					switch (surface.DegreeV)
-					{
-					case 1:
-						surface.KnotsV =
-						{
-						0,0,
-						0.333,
-						0.666,
-						1,1
-						};
-						break;
-
-					case 2:
-						surface.KnotsV =
-						{
-						0,0,0,
-						0.5,
-						1,1,1
-						};
-						break;
-
-					case 3:
-						surface.KnotsV =
-						{
-						0,0,0,0,
-						1,1,1,1
-						};
-						break;
-					}
-				}
-
-				// Sample Count
-				ImGui::Text("Sample Count");
-				ImGui::SameLine();
-				ImGui::InputInt("##Sample Count", &SampleCountSurface);
-
-				ImGui::Separator();
-
-				// Visualization
-				ImGui::Text("         ");
-				ImGui::SameLine();
-				ImGui::Checkbox("Show Surface", &ShowSurface);
-				ImGui::Text("         ");
-				ImGui::SameLine();
-				ImGui::Checkbox("Show Control Net", &ShowControlNet);
-
-				ImGui::Spacing();
-				// Set camera view
-				ImGui::Text("       View");
-				ImGui::SameLine();
-				if (ImGui::Combo("##View", &currentView, viewNames, IM_ARRAYSIZE(viewNames)))
-				{
-					switch (currentView)
-					{
-					case 0:
-						camera.SetFrontView();
-						break;
-					case 1:
-						camera.SetRightView();
-						break;
-					case 2:
-						camera.SetTopView();
-						break;
-					case 3:
-						camera.SetIsometricView();
-						break;
-					}
-			
 			}
-			ImGui::EndTabItem();
 
-			/*ImGui::Spacing();
 			ImGui::Separator();
-			ImGui::Button("  Update Surface  ");*/
-		}
 
+			// Degree U
+			ImGui::Text("    Degree U");
+			ImGui::SameLine();
+			//ImGui::InputInt("##Degree U", & surface.DegreeU);
+			//surface.DegreeU = std::max(1,std::min(surface.DegreeU,maxDegreeU));
+			if (ImGui::Combo("##Degree U", &degreeIndex, degreeOptions, IM_ARRAYSIZE(degreeOptions)))
+			{
+				surface.DegreeU = degreeIndex;
+				switch (surface.DegreeU)
+				{
+				case 1:
+				surface.KnotsU =
+					{
+					0,0,
+					0.333,
+					0.666,
+					1,1
+					};
+					break;
+
+				case 2:
+					surface.KnotsU =
+					{
+					0,0,0,
+					0.5,
+					1,1,1
+					};
+					break;
+
+				case 3:
+					surface.KnotsU =
+					{
+					0,0,0,0,
+					1,1,1,1
+					};
+					break;
+				}
+			}
+
+			// Degree V
+			ImGui::Text("    Degree V");
+			ImGui::SameLine();
+			//ImGui::InputInt("##Degree V", &surface.DegreeV);
+			//surface.DegreeV =std::max(1,std::min(surface.DegreeV,maxDegreeV));
+			if (ImGui::Combo("##Degree V", &degreeIndex, degreeOptions, IM_ARRAYSIZE(degreeOptions)))
+			{
+				surface.DegreeV = degreeIndex;
+				switch (surface.DegreeV)
+				{
+				case 1:
+					surface.KnotsV =
+					{
+					0,0,
+					0.333,
+					0.666,
+					1,1
+					};
+					break;
+
+				case 2:
+					surface.KnotsV =
+					{
+					0,0,0,
+					0.5,
+					1,1,1
+					};
+					break;
+
+				case 3:
+					surface.KnotsV =
+					{
+					0,0,0,0,
+					1,1,1,1
+					};
+					break;
+				}
+			}
+
+			// Sample Count
+			ImGui::Text("Sample Count");
+			ImGui::SameLine();
+			ImGui::InputInt("##Sample Count", &SampleCountSurface);
+
+			ImGui::Separator();
+
+			// Visualization
+			ImGui::Text("         ");
+			ImGui::SameLine();
+			ImGui::Checkbox("Show Surface", &ShowSurface);
+			ImGui::Text("         ");
+			ImGui::SameLine();
+			ImGui::Checkbox("Show Control Net", &ShowControlNet);
+
+			ImGui::Spacing();
+
+			// Set camera view
+			ImGui::Text("       View");
+			ImGui::SameLine();
+			if (ImGui::Combo("##View", &currentView, viewNames, IM_ARRAYSIZE(viewNames)))
+			{
+				switch (currentView)
+				{
+				case 0:
+					camera.SetFrontView();
+					break;
+				case 1:
+					camera.SetRightView();
+					break;
+				case 2:
+					camera.SetTopView();
+					break;
+				case 3:
+					camera.SetIsometricView();
+					break;
+				}
+			}
+
+			ImGui::Spacing();
+			ImGui::Separator();
+
+			// Select datatype to export
+			ImGui::Text("  Data Type");
+			ImGui::SameLine();
+			ImGui::Combo("##Data Type", &currentDataTypeSurface, dataExportCSVSurface, IM_ARRAYSIZE(dataExportCSVSurface));
+
+			// Export CSV button
+			ImGui::Text("           ");
+			ImGui::SameLine();
+			if (ImGui::Button("  Export CSV  "))
+			{
+				exportAttempted = true;
+
+				switch (currentDataTypeSurface)
+				{
+				case 0:
+					exportSuccess = CSVExporter::ExportSurfaceSamples(surface, "surface_samples.csv", SampleCount);
+					break;
+				}
+			}
+
+			// Export CSV success/fail message
+			ImGui::Separator();
+			ImGui::Spacing();
+			if (exportAttempted)
+			{
+				if (exportSuccess)
+				{
+					ImGui::Text("CSV file has been generated.");
+				}
+				else
+				{
+					ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f),
+						"CSV file generation has been failed.");
+				}
+			}
+		ImGui::EndTabItem();
+		}
 		ImGui::EndTabBar();
 	}
 	ImGui::End();

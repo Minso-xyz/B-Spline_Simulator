@@ -21,6 +21,7 @@ This project visualizes the mathematical foundations of B-Spline geometry includ
   - Dome
   - Gaussian
   - Wave
+- Surface Samples CSV Export
 
 ## Visualization
 - OpenGL Rendering
